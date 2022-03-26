@@ -1,0 +1,58 @@
+<html>
+<style>
+    @keyframes fall-down {
+        from {
+            transform: translateY(-50px);
+        }
+
+        to {
+            transform : translateY(var(--maxTop));
+        }
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body></body>
+<script>
+    const maxLeft = document.documentElement.clientWidth
+    const maxTop = document.documentElement.clientHeight + 50
+    const maxSize = 20;
+    const minSize = 10;
+    const image = "❤️";
+
+    function mapRange(number, in_min, in_max, out_min, out_max) {
+        return (number - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
+    function getRandomFloat(min, max, decimals) {
+        const str = (Math.random() * (max - min) + min).toFixed(decimals);
+
+        return parseFloat(str);
+    }
+
+    function makeShamp(left, top, size) {
+        let element = document.createElement('div');
+        element.style.setProperty("--maxTop", maxTop + "px");
+        let speed = mapRange(size, minSize * 1.0, maxSize * 1.0, 1.0, 4.0) + getRandomFloat(0.5, 4.5, 2);
+
+        element.style.animation = "fall-down "+speed+"s linear infinite"
+        element.innerText = image;
+        element.style.position = "absolute";
+        element.style.top = top + "px";
+        element.style.left = left + "px";
+        element.style.fontSize = size + "px";
+        document.body.appendChild(element);
+    }
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    for (let i = 0; i < 1000; i++) {
+        let left = getRandomInt(maxLeft);
+        let size = minSize + getRandomInt(maxSize);
+        makeShamp(left, -50, size);
+    }
+</script>
+</html>
